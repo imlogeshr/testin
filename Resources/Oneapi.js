@@ -1,7 +1,7 @@
-// Load the necessary static in the head and code from https://github.com/ParveenBhadooOfficial/Bhadoo-Drive-Index
+// Load the necessary static in the head and code from Index
 document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">');
 // markdown支持
-document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script><script src="https://cdn.jsdelivr.net/gh/ParveenBhadooOfficial/BhadooJS@1.0.10/js/copy-click-on-button-code.js" integrity="sha256-DN8Abv8u8YT3P4PCX9xXKK9agjfXnh8l96HDJrvfMdw=" crossorigin="anonymous"></script>');
+document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>');
 document.write('<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdui-toolbar>*{padding:0 6px;margin:0 2px}.mdui-toolbar>i{opacity:.5}.mdui-toolbar>.mdui-typo-headline{padding:0 1pc 0 0}.mdui-toolbar>i{padding:0}.mdui-toolbar>a:hover,a.active,a.mdui-typo-headline{opacity:1}.mdui-container{max-width:980px}.mdui-list-item{transition:none}.mdui-list>.th{background-color:initial}.mdui-list-item>a{width:100%;line-height:3pc}.mdui-list-item{margin:2px 0;padding:0}.mdui-toolbar>a:last-child{opacity:1}@media screen and (max-width:980px){.mdui-list-item .mdui-text-right{display:none}.mdui-container{width:100%!important;margin:0}.mdui-toolbar>.mdui-typo-headline,.mdui-toolbar>a:last-child,.mdui-toolbar>i:first-child{display:block}}</style>');
 // add custome theme and darkmode
 if (UI.dark_mode) {
@@ -12,13 +12,14 @@ if (UI.dark_mode) {
 function init() {
   document.siteName = $('title').html();
   $('body').addClass(`mdui-theme-primary-${UI.main_color} mdui-theme-accent-${UI.accent_color}`);
-  
   var html = `
 <center><br><a href="//apdindex.cf"><img src="https://raw.githack.com/Omkar47/apdindex/master/images/20200815_125926.png" class="btn1" width="220" height="40"></a></center>
 <header class="mdui-appbar mdui-color-theme"> 
    <div id="nav" class="mdui-toolbar mdui-container${UI.fluid_navigation_bar ? '-fluid' : ''} ${UI.dark_mode ? 'mdui-text-color-white-text' : ''}">
    </div> 
 </header>
+<div id="content" class="mdui-container"> 
+</div>
 	`;
   $('body').html(html);
 }
@@ -194,18 +195,6 @@ function requestSearch(params, resultCallback) {
 // Render file list
 function list(path) {
   var content = `
-	<br><label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.apdindex.cf" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");
-  }
-  </script>
 	<div id="head_md" class="mdui-typo" style="display:none;padding: 20px 0;"></div>
 
 	 <div class="mdui-row"> 
@@ -440,17 +429,6 @@ function append_files_to_list(path, files) {
  */
 function render_search_result_list() {
   var content = `
-	<br><label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.driveindex.ga" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");  }
-  </script>
 	<div id="head_md" class="mdui-typo" style="display:none;padding: 20px 0;"></div>
 
 	 <div class="mdui-row"> 
@@ -734,19 +712,8 @@ function file_code(path) {
 <pre id="editor" ></pre>
 </div>
 <div class="mdui-textfield">
-	<br><label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.driveindex.ga" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");  }
-  </script>
-	<label class="mdui-textfield-label" style="color:white;">Download Link</label>
-	<input class="mdui-textfield-input" type="text" value="${href}" disabled="" />
+	<label class="mdui-textfield-label">Download Link</label>
+	<input class="mdui-textfield-input" type="text" value="${href}"/>
 </div>
 <a href="${href}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 
@@ -827,20 +794,13 @@ function file_video(path) {
 	</video>
 	<br>${playBtn}
 	<!-- Fixed label -->
-	<br><label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.driveindex.ga" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");  }
-  </script>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label" style="color:white;">Download Link</label>
-	  <input class="mdui-textfield-input" type="text" value="${url}" disabled="" />
+	  <label class="mdui-textfield-label">Download Link</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">HTML Reference address</label>
+	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
 	</div>
 </div>
 <a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
@@ -863,20 +823,13 @@ function file_audio(path) {
 	</audio>
 	<br>
 	<!-- Fixed label -->
-	<br><label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.driveindex.ga" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");  }
-  </script>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label" style="color:white;">Download Link</label>
-	  <input class="mdui-textfield-input" type="text" value="${url}" disabled="" />
+	  <label class="mdui-textfield-label">Download Link</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">HTML Reference address</label>
+	  <textarea class="mdui-textfield-input"><audio><source src="${url}"></audio></textarea>
 	</div>
 </div>
 <a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
@@ -951,20 +904,17 @@ function file_image(path) {
 	    <img class="mdui-img-fluid" src="${url}"/>
     </div>
 	<br>
-  <label class="mdui-textfield-label" style="color:white;">Shareable Link </label><div class="mdui-textfield" id="sharelink"></div>
-  <script>
-	var shareurl = "https://one.driveindex.ga" + window.location.pathname;
-	document.getElementById("sharelink").innerHTML= '<input class="mdui-textfield-input" id="txttocopy" type="text" value="' + shareurl +'" ><button class="mdui-btn mdui-color-theme-accent mdui-ripple" onclick="copyURL()" id="copybtn">Copy Link</button>';
-  function copyURL() {
-    var copyText = document.getElementById("txttocopy");
-    copyText.select();
-    copyText.setSelectionRange(0, 99999)
-    document.execCommand("copy");
-    alert("Shareable Link Copied.");  }
-  </script>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label" style="color:white;">Download Link</label>
-	  <input class="mdui-textfield-input" type="text" value="${url}" disabled="" />
+	  <label class="mdui-textfield-label">Download Link</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">HTML Reference address</label>
+	  <input class="mdui-textfield-input" type="text" value="<img src='${url}' />"/>
+	</div>
+        <div class="mdui-textfield">
+	  <label class="mdui-textfield-label">Markdown Reference address</label>
+	  <input class="mdui-textfield-input" type="text" value="![](${url})"/>
 	</div>
         <br>
 </div>
